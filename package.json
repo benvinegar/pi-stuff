@@ -1,0 +1,20 @@
+{
+  "name": "pi-stuff",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Open-source Pi extensions and skills.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check . && npm run typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^22.13.10",
+    "typescript": "^5.7.3",
+    "vitest": "^3.2.4"
+  }
+}

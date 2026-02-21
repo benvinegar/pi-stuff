@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": false,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@mariozechner/pi-coding-agent": ["test/stubs/pi-coding-agent.ts"],
+      "@mariozechner/pi-ai": ["test/stubs/pi-ai.ts"],
+      "@sinclair/typebox": ["test/stubs/typebox.ts"],
+      "@onkernel/sdk": ["test/stubs/onkernel-sdk.ts"]
+    },
+    "types": ["node", "vitest/globals"]
+  },
+  "include": ["extensions", "test", "vitest.config.ts", "biome.json"]
+}
