@@ -8,6 +8,51 @@ Open-source Pi extensions and skills pulled from my personal dotfiles.
 - `extensions/pr-track` — PR tracking extension for GitHub workflows
 - `skills/` — space for reusable Pi skills
 
+## Extensions
+
+### `kernel` (cloud browser control + automation)
+
+This extension adds tools and a `/kernel` command to manage Kernel browser sessions, run Playwright code remotely, take screenshots, and send low-level mouse/keyboard actions.
+
+```text
+You
+ │
+ ├─ /kernel create
+ ├─ kernel_playwright(code)
+ ├─ kernel_screenshot()
+ └─ kernel_computer(click/type/...)
+      │
+      ▼
+Pi extension (extensions/kernel)
+      │
+      ▼
+Kernel cloud browser session
+      │
+      ▼
+Live page + returned text/image results
+```
+
+### `pr-track` (session-aware PR tracker)
+
+This extension watches PR-related activity, tracks PRs in session state, and renders a compact status widget (CI/review/merge) inside the Pi UI.
+
+```text
+gh pr create / /pr-track 42 / /pr-refresh
+                 │
+                 ▼
+Pi extension (extensions/pr-track)
+  ├─ gh pr view --json ...
+  ├─ persist tracked PR state in session
+  └─ refresh on events/tool results
+                 │
+                 ▼
+UI widget + status line
+
+PR Tracker (2)
+#42 Ship tracker tests   CI:[====~~~] RV:… MG:○
+#77 Auto tracked         CI:[=======] RV:✓ MG:○
+```
+
 ## Development
 
 ```bash
