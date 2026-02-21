@@ -32,35 +32,10 @@ Kernel cloud browser session
 Live page + returned text/image results
 ```
 
-#### Kernel Pi UI examples
+#### Kernel Pi UI example
 
 ```text
-Status line (no active browser)
-Kernel: none · run /kernel or kernel_browser create
-
-Status line (active + healthy)
 Kernel: work-profile (7d1f3b9a2c1d…) · github.com · age 12m · timeout 300s
-
-Status line (active + busy)
-Kernel: work-profile (7d1f3b9a2c1d…) · busy (playwright 3s)
-```
-
-```text
-/kernel
-
-Kernel Browsers (select to set active):
-○ 2f2b1c0d-.... (stealth, gui)
-● 7d1f3b9a-.... (stealth, gui, profile:work-profile)
-
-[select updates active session]
-```
-
-```text
-kernel_browser({ action: "prune", older_than: "2h", dry_run: true })
-
-Prune dry-run: 2 session(s) would be deleted.
-- id: 2f2b1c0d-... | stealth | live: https://... | created: ...
-- id: 13dd9a8f-... | stealth | live: https://... | created: ...
 ```
 
 ### `pr-track` (session-aware PR tracker)
