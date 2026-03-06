@@ -8,7 +8,15 @@ export type ToolResultEvent = {
 export type ExtensionContext = {
   hasUI: boolean;
   ui: any;
-  sessionManager: { getEntries: () => any[] };
+  sessionManager: {
+    getEntries: () => any[];
+    getBranch: () => any[];
+  };
+  model?: { provider: string; id: string };
+  modelRegistry: {
+    find: (provider: string, modelId: string) => any;
+    getApiKey: (model: any) => Promise<string | undefined>;
+  };
 };
 
 export type ExtensionCommandContext = ExtensionContext;
@@ -18,7 +26,7 @@ export type ExtensionAPI = {
   registerCommand: (name: string, command: { description: string; handler: any }) => void;
   on: (eventName: string, handler: (...args: any[]) => any) => void;
   appendEntry: <T>(type: string, data: T) => void;
-  sendMessage: (message: any) => void;
+  sendMessage: (message: any, options?: any) => void;
   exec: (
     cmd: string,
     args: string[],

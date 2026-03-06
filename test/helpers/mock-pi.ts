@@ -30,7 +30,7 @@ export function createMockPi(options?: {
         events.set(eventName, list);
       },
       appendEntry: (_type: string, data: any) => customEntries.push(data),
-      sendMessage: (message: any) => sentMessages.push(message),
+      sendMessage: (message: any, _options?: any) => sentMessages.push(message),
       exec: async (cmd: string, args: string[], opts?: Record<string, unknown>) => {
         if (options?.execImpl) return options.execImpl(cmd, args, opts);
         return { code: 0, stdout: "", stderr: "" };
@@ -50,6 +50,18 @@ export function createMockContext(entries: unknown[] = []) {
   const widgets: Array<{ id: string; lines: string[] | undefined }> = [];
   const statuses: Array<{ id: string; message: string | undefined }> = [];
 
+  const models = [
+    { provider: "openai-codex", id: "gpt-5.1-codex-mini" },
+    { provider: "anthropic", id: "claude-haiku-4-5" },
+    { provider: "openai-codex", id: "gpt-5.3-codex" },
+  ];
+
+  const modelRegistry = {
+    find: (provider: string, modelId: string) =>
+      models.find((m) => m.provider === provider && m.id === modelId),
+    getApiKey: async (_model: any) => "test-api-key",
+  };
+
   return {
     notifications,
     widgets,
@@ -67,7 +79,10 @@ export function createMockContext(entries: unknown[] = []) {
       },
       sessionManager: {
         getEntries: () => entries,
+        getBranch: () => entries,
       },
+      model: models[2],
+      modelRegistry,
     },
   };
 }

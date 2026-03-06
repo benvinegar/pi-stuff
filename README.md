@@ -5,7 +5,8 @@ Open-source Pi extensions and skills pulled from my personal dotfiles.
 ## Contents
 
 - `extensions/kernel` — Kernel cloud browser extension
-- `extensions/pr-track` — PR tracking extension for GitHub workflows
+- `extensions/pr-track` — PR tracking extension for GitHub workflows (`/pr ...` subcommands)
+- `extensions/recap` — Session recap extension with deterministic + fast LLM summary
 - `skills/` — space for reusable Pi skills
 
 ## Extensions
@@ -43,21 +44,29 @@ Kernel: work-profile (7d1f3b9a2c1d…) · github.com · age 12m · timeout 300s
 This extension watches PR-related activity, tracks PRs in session state, and renders a compact status widget (CI/review/merge) inside the Pi UI.
 
 ```text
-gh pr create / /pr-track 42 / /pr-refresh
-                 │
-                 ▼
+gh pr create / /pr track 42 / /pr *
+                │
+                ▼
 Pi extension (extensions/pr-track)
   ├─ gh pr view --json ...
   ├─ persist tracked PR state in session
   └─ refresh on events/tool results
-                 │
-                 ▼
+                │
+                ▼
 UI widget + status line
 
 PR Tracker (2)
 #42 Ship tracker tests   CI:[====~~~] RV:… MG:○
 #77 Auto tracked         CI:[=======] RV:✓ MG:○
 ```
+
+### `recap` (session snapshot + LLM TL;DR)
+
+Adds `/recap` to summarize the current session quickly:
+
+- deterministic stats (messages, tools, files, recent requests/outcomes)
+- optional fast LLM sentence at the top (`TL;DR: ...`)
+- `/recap raw` to skip the LLM call
 
 ## Development
 
@@ -79,6 +88,7 @@ npm test
 Initial extension sources were copied from:
 - `~/Projects/dotfiles/pi/extensions/kernel/index.ts`
 - `~/Projects/dotfiles/pi/extensions/pr-tracker.ts`
+- `~/Projects/dotfiles/pi/extensions/recap.ts`
 
 ## License
 
