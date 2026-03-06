@@ -475,7 +475,7 @@ export default function prTrackerExtension(pi: ExtensionAPI): void {
 				await updateTrackedPr(ctx, ref, false);
 			}
 			if (refs.length === 0) {
-				ctx.ui.notify("PR created but URL not detected in output. Run /pr-track to add it.", "warning");
+				ctx.ui.notify("PR created but URL not detected in output. Run /pr track to add it.", "warning");
 			}
 			return;
 		}
@@ -485,157 +485,182 @@ export default function prTrackerExtension(pi: ExtensionAPI): void {
 		}
 	});
 
-	pi.registerCommand("pr-refresh", {
-		description: "Refresh status for PRs tracked by this session",
-		handler: async (_args, ctx: ExtensionCommandContext) => {
-			await refreshAll(ctx, false);
-		},
-	});
+	const listTrackedPrs = (ctx: ExtensionCommandContext, quiet = false) => {
+		if (trackedPrs.length === 0) {
+			ctx.ui.notify("No PRs tracked in this session yet", "info");
+			return;
+		}
 
-	pi.registerCommand("pr-track", {
-		description: "Track a PR by number, or the current branch PR when omitted",
+		const ciText = (ci: CiStatus) => {
+			switch (ci) {
+				case "pass":
+					return "CI:green";
+				case "fail":
+					return "CI:red";
+				case "pending":
+					return "CI:pending";
+				case "none":
+					return "CI:none";
+				default:
+					return "CI:?";
+			}
+		};
+
+		const reviewText = (review: ReviewStatus) => {
+			switch (review) {
+				case "approved":
+					return "review:approved";
+				case "changes":
+					return "review:changes-requested";
+				case "pending":
+					return "review:pending";
+				default:
+					return "review:?";
+			}
+		};
+
+		const mergeText = (merge: MergeStatus) => {
+			switch (merge) {
+				case "merged":
+					return "merge:merged";
+				case "open":
+					return "merge:open";
+				case "closed":
+					return "merge:closed";
+				case "draft":
+					return "merge:draft";
+				default:
+					return "merge:?";
+			}
+		};
+
+		const lines: string[] = ["Tracked PRs:"];
+		for (const pr of trackedPrs) {
+			lines.push(
+				`#${pr.number} ${pr.title}`,
+				`  ${ciText(pr.ci)} · ${reviewText(pr.review)} · ${mergeText(pr.merge)}`,
+				`  ${pr.url}`,
+			);
+		}
+
+		pi.sendMessage({
+			customType: "pr-tracker-list",
+			content: lines.join("\n"),
+			display: true,
+		});
+		if (!quiet) ctx.ui.notify(`Listed ${trackedPrs.length} tracked PR(s)`, "info");
+	};
+
+	const notifyUsage = (ctx: ExtensionCommandContext) => {
+		ctx.ui.notify("Usage: /pr [list|*|refresh|track <number?>|open <number?>|untrack <number|all>|help]", "info");
+	};
+
+	pi.registerCommand("pr", {
+		description: "PR tracker command group: /pr [list|*|refresh|track|open|untrack|help]",
 		handler: async (args, ctx: ExtensionCommandContext) => {
-			const value = args.trim();
-			if (!value) {
-				await updateTrackedPr(ctx, "", false);
+			const raw = (args || "").trim();
+			if (!raw) {
+				listTrackedPrs(ctx);
 				return;
 			}
 
-			const num = Number(value);
-			if (!Number.isInteger(num) || num <= 0) {
-				ctx.ui.notify("Usage: /pr-track <number?>", "warning");
-				return;
-			}
+			const [subRaw, ...restParts] = raw.split(/\s+/);
+			const sub = subRaw.toLowerCase();
+			const value = restParts.join(" ").trim();
 
-			await updateTrackedPr(ctx, String(num), false);
-		},
-	});
+			switch (sub) {
+				case "help":
+					notifyUsage(ctx);
+					return;
 
-	pi.registerCommand("pr-open", {
-		description: "Print a PR GitHub URL (number, latest tracked, or current branch)",
-		handler: async (args, ctx: ExtensionCommandContext) => {
-			const value = args.trim();
-			if (value) {
-				const num = Number(value);
-				if (!Number.isInteger(num) || num <= 0) {
-					ctx.ui.notify("Usage: /pr-open <number?>", "warning");
+				case "list":
+					listTrackedPrs(ctx);
+					return;
+
+				case "*":
+				case "all":
+					await refreshAll(ctx, true);
+					listTrackedPrs(ctx);
+					return;
+
+				case "refresh":
+					await refreshAll(ctx, false);
+					return;
+
+				case "track": {
+					if (!value) {
+						await updateTrackedPr(ctx, "", false);
+						return;
+					}
+
+					const num = Number(value);
+					if (!Number.isInteger(num) || num <= 0) {
+						ctx.ui.notify("Usage: /pr track <number?>", "warning");
+						return;
+					}
+
+					await updateTrackedPr(ctx, String(num), false);
 					return;
 				}
-				await openPr(ctx, String(num), false);
-				return;
-			}
 
-			if (trackedPrs.length > 0) {
-				await openPr(ctx, String(trackedPrs[0].number), false);
-				return;
-			}
+				case "open": {
+					if (value) {
+						const num = Number(value);
+						if (!Number.isInteger(num) || num <= 0) {
+							ctx.ui.notify("Usage: /pr open <number?>", "warning");
+							return;
+						}
+						await openPr(ctx, String(num), false);
+						return;
+					}
 
-			await openPr(ctx, "", false);
-		},
-	});
+					if (trackedPrs.length > 0) {
+						await openPr(ctx, String(trackedPrs[0].number), false);
+						return;
+					}
 
-	pi.registerCommand("pr-list", {
-		description: "Show tracked PRs and their CI/review/merge status",
-		handler: async (_args, ctx: ExtensionCommandContext) => {
-			if (trackedPrs.length === 0) {
-				ctx.ui.notify("No PRs tracked in this session yet", "info");
-				return;
-			}
-
-			const ciText = (ci: CiStatus) => {
-				switch (ci) {
-					case "pass":
-						return "CI:green";
-					case "fail":
-						return "CI:red";
-					case "pending":
-						return "CI:pending";
-					case "none":
-						return "CI:none";
-					default:
-						return "CI:?";
+					await openPr(ctx, "", false);
+					return;
 				}
-			};
 
-			const reviewText = (review: ReviewStatus) => {
-				switch (review) {
-					case "approved":
-						return "review:approved";
-					case "changes":
-						return "review:changes-requested";
-					case "pending":
-						return "review:pending";
-					default:
-						return "review:?";
+				case "untrack": {
+					if (!value) {
+						ctx.ui.notify("Usage: /pr untrack <number|all>", "warning");
+						return;
+					}
+
+					if (value.toLowerCase() === "all") {
+						trackedPrs = [];
+						persistState(pi, trackedPrs);
+						syncUi(ctx);
+						ctx.ui.notify("Cleared tracked PR list", "info");
+						return;
+					}
+
+					const num = Number(value);
+					if (!Number.isInteger(num) || num <= 0) {
+						ctx.ui.notify("Usage: /pr untrack <number|all>", "warning");
+						return;
+					}
+
+					const before = trackedPrs.length;
+					trackedPrs = trackedPrs.filter((p) => p.number !== num);
+					if (trackedPrs.length === before) {
+						ctx.ui.notify(`PR #${num} is not tracked`, "warning");
+						return;
+					}
+
+					persistState(pi, trackedPrs);
+					syncUi(ctx);
+					ctx.ui.notify(`Untracked PR #${num}`, "info");
+					return;
 				}
-			};
 
-			const mergeText = (merge: MergeStatus) => {
-				switch (merge) {
-					case "merged":
-						return "merge:merged";
-					case "open":
-						return "merge:open";
-					case "closed":
-						return "merge:closed";
-					case "draft":
-						return "merge:draft";
-					default:
-						return "merge:?";
-				}
-			};
-
-			const lines: string[] = ["Tracked PRs:"];
-			for (const pr of trackedPrs) {
-				lines.push(
-					`#${pr.number} ${pr.title}`,
-					`  ${ciText(pr.ci)} · ${reviewText(pr.review)} · ${mergeText(pr.merge)}`,
-					`  ${pr.url}`,
-				);
+				default:
+					ctx.ui.notify(`Unknown /pr subcommand: ${sub}`, "warning");
+					notifyUsage(ctx);
+					return;
 			}
-
-			pi.sendMessage({
-				customType: "pr-tracker-list",
-				content: lines.join("\n"),
-				display: true,
-			});
-			ctx.ui.notify(`Listed ${trackedPrs.length} tracked PR(s)`, "info");
-		},
-	});
-
-	pi.registerCommand("pr-untrack", {
-		description: "Stop tracking a PR by number, or 'all'",
-		handler: async (args, ctx: ExtensionCommandContext) => {
-			const value = args.trim();
-			if (!value) {
-				ctx.ui.notify("Usage: /pr-untrack <number|all>", "warning");
-				return;
-			}
-
-			if (value === "all") {
-				trackedPrs = [];
-				persistState(pi, trackedPrs);
-				syncUi(ctx);
-				ctx.ui.notify("Cleared tracked PR list", "info");
-				return;
-			}
-
-			const num = Number(value);
-			if (!Number.isFinite(num)) {
-				ctx.ui.notify("Usage: /pr-untrack <number|all>", "warning");
-				return;
-			}
-
-			const before = trackedPrs.length;
-			trackedPrs = trackedPrs.filter((p) => p.number !== num);
-			if (trackedPrs.length === before) {
-				ctx.ui.notify(`PR #${num} is not tracked`, "warning");
-				return;
-			}
-
-			persistState(pi, trackedPrs);
-			syncUi(ctx);
-			ctx.ui.notify(`Untracked PR #${num}`, "info");
 		},
 	});
 }

@@ -17,16 +17,14 @@ function ghPr(number: number, title = "Add cool thing") {
 }
 
 describe("pr-track extension", () => {
-  it("registers expected commands", () => {
+  it("registers grouped /pr command", () => {
     const mock = createMockPi();
     prTrackExtension(mock.api as any);
 
-    expect([...mock.commands.keys()].sort()).toEqual(
-      ["pr-list", "pr-open", "pr-refresh", "pr-track", "pr-untrack"].sort(),
-    );
+    expect([...mock.commands.keys()].sort()).toEqual(["pr"]);
   });
 
-  it("tracks a PR and lists it", async () => {
+  it("tracks a PR and lists it via /pr subcommands", async () => {
     const mock = createMockPi({
       execImpl: async (_cmd, args) => {
         if (args[0] === "pr" && args[1] === "view") {
@@ -38,8 +36,8 @@ describe("pr-track extension", () => {
     const { ctx, notifications } = createMockContext();
     prTrackExtension(mock.api as any);
 
-    await mock.commands.get("pr-track")?.handler("42", ctx as any);
-    await mock.commands.get("pr-list")?.handler("", ctx as any);
+    await mock.commands.get("pr")?.handler("track 42", ctx as any);
+    await mock.commands.get("pr")?.handler("list", ctx as any);
 
     expect(notifications.some((n) => n.message.includes("Tracking PR #42"))).toBe(true);
     expect(mock.sentMessages.at(-1)?.content).toContain("#42 Ship tracker tests");
@@ -69,7 +67,7 @@ describe("pr-track extension", () => {
       ctx,
     );
 
-    await mock.commands.get("pr-list")?.handler("", ctx as any);
+    await mock.commands.get("pr")?.handler("list", ctx as any);
     expect(mock.sentMessages.at(-1)?.content).toContain("#77 Auto tracked");
   });
 });
