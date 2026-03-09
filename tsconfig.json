@@ -10,6 +10,7 @@
     "paths": {
       "@mariozechner/pi-coding-agent": ["test/stubs/pi-coding-agent.ts"],
       "@mariozechner/pi-ai": ["test/stubs/pi-ai.ts"],
+      "@mariozechner/pi-tui": ["test/stubs/pi-tui.ts"],
       "@sinclair/typebox": ["test/stubs/typebox.ts"],
       "@onkernel/sdk": ["test/stubs/onkernel-sdk.ts"]
     },

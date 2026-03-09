@@ -4,6 +4,7 @@ Open-source Pi extensions and skills pulled from my personal dotfiles.
 
 ## Contents
 
+- `extensions/draw` — Mouse-friendly ASCII drawing modal (`/draw`)
 - `extensions/kernel` — Kernel cloud browser extension
 - `extensions/pr-track` — PR tracking extension for GitHub workflows (`/pr ...` subcommands)
 - `extensions/recap` — Session recap extension with deterministic + fast LLM summary
@@ -68,6 +69,17 @@ Adds `/recap` to summarize the current session quickly:
 - optional fast LLM sentence at the top (`TL;DR: ...`)
 - `/recap raw` to skip the LLM call
 
+### `draw` (mouse-friendly ASCII drawing modal)
+
+Adds `/draw`, a full-screen overlay canvas for sketching ASCII art and inserting it into the editor as a fenced `text` block.
+
+Controls:
+
+- mouse: left drag draw, right drag erase
+- keyboard: `Ctrl+T` mode cycle (`freeform` / `line` / `text`)
+- keyboard: `Ctrl+Z` undo, `Ctrl+Y` redo, `Ctrl+X` clear
+- keyboard: `[` / `]` brush cycle, `Enter` save, `Esc` cancel
+
 ## Development
 
 ```bash
@@ -86,6 +98,7 @@ npm test
 ## Source
 
 Initial extension sources were copied from:
+- `~/Projects/dotfiles/pi/extensions/draw.ts`
 - `~/Projects/dotfiles/pi/extensions/kernel/index.ts`
 - `~/Projects/dotfiles/pi/extensions/pr-tracker.ts`
 - `~/Projects/dotfiles/pi/extensions/recap.ts`

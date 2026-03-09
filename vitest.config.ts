@@ -12,6 +12,7 @@ export default defineConfig({
     alias: {
       "@mariozechner/pi-coding-agent": resolve(rootDir, "test/stubs/pi-coding-agent.ts"),
       "@mariozechner/pi-ai": resolve(rootDir, "test/stubs/pi-ai.ts"),
+      "@mariozechner/pi-tui": resolve(rootDir, "test/stubs/pi-tui.ts"),
       "@sinclair/typebox": resolve(rootDir, "test/stubs/typebox.ts"),
       "@onkernel/sdk": resolve(rootDir, "test/stubs/onkernel-sdk.ts"),
     },
