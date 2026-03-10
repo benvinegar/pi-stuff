@@ -75,10 +75,16 @@ Adds `/draw`, a full-screen overlay canvas for sketching ASCII art and inserting
 
 Controls:
 
-- mouse: left drag draw, right drag erase
-- keyboard: `Ctrl+T` mode cycle (`freeform` / `line` / `text`)
+- mouse (`line`): drag from one coordinate to another for a straight line (left draw, right erase)
+- mouse (`box`): left drag-select to place an auto-connected box, right drag-select to erase box edges
+- keyboard: `Ctrl+T` mode cycle (`box` / `line` / `text`)
 - keyboard: `Ctrl+Z` undo, `Ctrl+Y` redo, `Ctrl+X` clear
-- keyboard: `[` / `]` brush cycle, `Enter` save, `Esc` cancel
+- keyboard: `[` / `]` brush cycle in line mode, `Enter` save, `Esc` cancel
+
+Box mode notes:
+
+- corners/tees/crossings auto-resolve with box-drawing glyphs
+- outer boxes render heavy by default; nested inner boxes render lighter
 
 ## Development
 
