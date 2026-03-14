@@ -75,6 +75,16 @@ const messages = [
   "Cooked the error, dun kno...",
   "Greezy build coming up...",
   "I'm not done, I'm just mossin'...",
+  "Beauty, found something...",
+  "Give'r on this build...",
+  "Toque on, brain engaged...",
+  "Keenering through these imports...",
+  "Only a few clicks from done...",
+  "No kerfuffle here, just code styll...",
+  "Computing eh...",
+  "Bird course this ain't styll...",
+  "Trash panda in the dependency tree...",
+  "GTA representing rn...",
 ];
 
 function pickRandom(): string {
