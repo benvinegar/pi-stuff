@@ -8,6 +8,7 @@ Open-source Pi extensions and skills pulled from my personal dotfiles.
 - `extensions/kernel` — Kernel cloud browser extension
 - `extensions/pr-track` — PR tracking extension for GitHub workflows (`/pr ...` subcommands)
 - `extensions/recap` — Session recap extension with deterministic + fast LLM summary
+- `extensions/whimsical-toronto` — Toronto slang working messages during agent turns
 - `skills/` — space for reusable Pi skills
 
 ## Extensions
@@ -86,6 +87,19 @@ Box mode notes:
 - corners/tees/crossings auto-resolve with box-drawing glyphs
 - outer boxes render heavy by default; nested inner boxes render lighter
 
+### `whimsical-toronto` (Toronto slang working messages)
+
+Replaces the default "working..." spinner text with Toronto slang phrases while the agent is thinking.
+
+```text
+Mossin' on these tokens rn...
+Bare computation happening styll...
+Merked that last bug fr...
+Wagwan with this stack trace...
+```
+
+Drop it in `~/.pi/agent/extensions/` or `.pi/extensions/` to activate. Works standalone — no config needed.
+
 ## Development
 
 ```bash
@@ -108,6 +122,7 @@ Initial extension sources were copied from:
 - `~/Projects/dotfiles/pi/extensions/kernel/index.ts`
 - `~/Projects/dotfiles/pi/extensions/pr-tracker.ts`
 - `~/Projects/dotfiles/pi/extensions/recap.ts`
+- `~/Projects/dotfiles/pi/extensions/whimsical-toronto.ts`
 
 ## License
 

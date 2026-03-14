@@ -1,0 +1,92 @@
+import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+
+// Working messages inspired by Toronto slang.
+const messages = [
+  "I'm out here compiling g...",
+  "Mossin' on these tokens rn...",
+  "Moving mad through the codebase...",
+  "Bare computation happening styll...",
+  "Merked that last bug fr...",
+  "Wagwan with this stack trace...",
+  "Two-twos, almost done...",
+  "Nize it, I'm thinking...",
+  "Cooked these files, dun kno...",
+  "Sus behaviour in the imports...",
+  "Gangin on this build...",
+  "Reaching into the codebase...",
+  "Wheeling these functions into shape...",
+  "Gassed off this refactor...",
+  "Tun up the output one sec...",
+  "Chirping the linter rn...",
+  "Styll loading tho...",
+  "Amped to ship this...",
+  "Szeen, processing...",
+  "Make moves on this build...",
+  "Regulate the flow one sec...",
+  "Linking up with the API...",
+  "Cut through the noise fam...",
+  "Dun kno what's in here yet...",
+  "Lit af in these logs...",
+  "Lit rn no cap...",
+  "Low key this might take a sec...",
+  "Bare errors in here styll...",
+  "Cheezed at this type error ngl...",
+  "I'm cooked but still going...",
+  "Blem but functional...",
+  "Say word? Processing...",
+  "Preeing the codebase rn...",
+  "Making moves, dun kno...",
+  "Ahlie tho, almost there...",
+  "Bout it bout it, one sec...",
+  "Sav mode activated...",
+  "We outside (in the heap)...",
+  "On a ting rn...",
+  "No cap, this is taking a sec...",
+  "Wagwan tokens, link up...",
+  "Cooked and logging fr...",
+  "Dun kno, running it back...",
+  "Gyallis behaviour in these imports...",
+  "We not leaving till this ships styll...",
+  "Szeen szeen, working on it...",
+  "Bare tokens getting consumed rn...",
+  "Fam I'm in the codebase...",
+  "Lowe it, almost there...",
+  "Snake in the dependency tree...",
+  "Linking up the logic fam...",
+  "Real talk this is a vibe...",
+  "Wasteman code getting deleted styll...",
+  "Two-twos and we linking...",
+  "Tryna reach you rn...",
+  "I'm on it dun kno...",
+  "Bless, found something...",
+  "Ahlie let me look closer...",
+  "Lit build incoming no cap...",
+  "From time this bug been here styll...",
+  "Sus import getting investigated...",
+  "Preeing the diff rn...",
+  "Moving through it fam...",
+  "Nize it, computing...",
+  "Szeen the problem, fixing it...",
+  "Wheeling through the functions...",
+  "Chirping these warnings...",
+  "We amped rn fr fr...",
+  "That's bare logic right there...",
+  "Reaching the answer two-twos...",
+  "Cooked the error, dun kno...",
+  "Greezy build coming up...",
+  "I'm not done, I'm just mossin'...",
+];
+
+function pickRandom(): string {
+  return messages[Math.floor(Math.random() * messages.length)];
+}
+
+export default function (pi: ExtensionAPI) {
+  pi.on("turn_start", async (_event, ctx) => {
+    ctx.ui.setWorkingMessage(pickRandom());
+  });
+
+  pi.on("turn_end", async (_event, ctx) => {
+    ctx.ui.setWorkingMessage(); // Reset for next time
+  });
+}
