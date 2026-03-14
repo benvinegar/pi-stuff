@@ -85,6 +85,7 @@ const messages = [
   "Bird course this ain't styll...",
   "Trash panda in the dependency tree...",
   "GTA representing rn...",
+  "Yes b'y, on it...",
 ];
 
 function pickRandom(): string {
