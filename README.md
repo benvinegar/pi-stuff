@@ -8,6 +8,14 @@ Open-source Pi extensions focused on practical coding workflows.
 - TypeScript source + tests for extension behavior
 - Example-ready docs for installing and using each extension
 
+| Extension | Purpose | Command(s) | Docs |
+|---|---|---|---|
+| `draw` | Mouse-friendly ASCII drawing overlay | `/draw` | [`extensions/draw/README.md`](./extensions/draw/README.md) |
+| `kernel` | Cloud browser sessions + Playwright + low-level computer control | `/kernel`, `kernel_*` tools | [`extensions/kernel/README.md`](./extensions/kernel/README.md) |
+| `pr-track` | Track PR status in-session with CI/review/merge widget | `/pr ...` | [`extensions/pr-track/README.md`](./extensions/pr-track/README.md) |
+| `recap` | Fast session recap with optional one-line LLM TL;DR | `/recap` | [`extensions/recap/README.md`](./extensions/recap/README.md) |
+| `whimsical-toronto` | Toronto-slang working messages while Pi is thinking | automatic | [`extensions/whimsical-toronto/README.md`](./extensions/whimsical-toronto/README.md) |
+
 ## Quick start
 
 ```bash
@@ -52,16 +60,6 @@ Then in `.pi/settings.json`, keep only the extension you want:
 ```
 
 Run `/reload` after updating settings.
-
-## Extension catalog
-
-| Extension | Purpose | Command(s) | Docs |
-|---|---|---|---|
-| `draw` | Mouse-friendly ASCII drawing overlay | `/draw` | [`extensions/draw/README.md`](./extensions/draw/README.md) |
-| `kernel` | Cloud browser sessions + Playwright + low-level computer control | `/kernel`, `kernel_*` tools | [`extensions/kernel/README.md`](./extensions/kernel/README.md) |
-| `pr-track` | Track PR status in-session with CI/review/merge widget | `/pr ...` | [`extensions/pr-track/README.md`](./extensions/pr-track/README.md) |
-| `recap` | Fast session recap with optional one-line LLM TL;DR | `/recap` | [`extensions/recap/README.md`](./extensions/recap/README.md) |
-| `whimsical-toronto` | Toronto-slang working messages while Pi is thinking | automatic | [`extensions/whimsical-toronto/README.md`](./extensions/whimsical-toronto/README.md) |
 
 ## Repo layout
 
