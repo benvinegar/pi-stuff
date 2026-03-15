@@ -70,7 +70,7 @@ kernel_playwright(code="await page.goto('https://example.com'); return await pag
 kernel_screenshot()
 ```
 
-## Hypothetical output
+## Example output
 
 ```text
 > kernel_browser(action="create")

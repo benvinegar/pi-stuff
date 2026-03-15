@@ -61,7 +61,7 @@ Run `/reload` after editing settings.
 /pr *
 ```
 
-## Hypothetical output
+## Example output
 
 ```text
 PR Tracker (2)

@@ -59,7 +59,7 @@ Key controls:
 - `Enter`: save to editor
 - `Esc`: cancel
 
-## Hypothetical output
+## Example output
 
 ### Modal while drawing
 

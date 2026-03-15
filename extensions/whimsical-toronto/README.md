@@ -42,7 +42,7 @@ pi install -l git:github.com/benvinegar/pi-stuff
 
 Run `/reload` after editing settings.
 
-## Hypothetical output
+## Example output
 
 ```text
 Mossin' on these tokens rn...

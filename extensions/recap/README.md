@@ -52,7 +52,7 @@ Run `/reload` after editing settings.
 /recap full
 ```
 
-## Hypothetical output
+## Example output
 
 ```text
 TL;DR: Added extension README splits, tightened root docs, and next step is validating install snippets against a clean Pi profile.
