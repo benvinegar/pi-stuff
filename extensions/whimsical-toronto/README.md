@@ -1,44 +1,58 @@
 # whimsical-toronto
 
-A pi extension that replaces the default "working..." spinner text with Toronto (and broader Canadian) slang phrases while the agent is thinking.
+Pi extension that swaps default "working..." text with Toronto-flavored slang while the agent is thinking.
 
-## Examples
+## What it does
 
+On `turn_start`, it sets a random phrase for the working spinner.
+
+No config, no dependencies.
+
+## Install
+
+### Simple (single-file install)
+
+```bash
+pi install -l ./extensions/whimsical-toronto/index.ts
 ```
-I'm out here compiling g...
+
+Then run `/reload` in Pi.
+
+### Monorepo install (git) + filter to whimsical-toronto only
+
+```bash
+pi install -l git:github.com/benvinegar/pi-stuff
+```
+
+`.pi/settings.json`:
+
+```json
+{
+  "packages": [
+    {
+      "source": "git:github.com/benvinegar/pi-stuff",
+      "extensions": ["extensions/whimsical-toronto/index.ts"],
+      "skills": [],
+      "prompts": [],
+      "themes": []
+    }
+  ]
+}
+```
+
+Run `/reload` after editing settings.
+
+## Hypothetical output
+
+```text
 Mossin' on these tokens rn...
 Bare computation happening styll...
 Merked that last bug fr...
 Wagwan with this stack trace...
-Szeen, processing...
 Toque on, brain engaged...
-Give'r on this build...
-Beauty, found something...
 ```
-
-## Install
-
-Drop `index.ts` into your pi extensions directory:
-
-```bash
-# Global (all projects)
-cp index.ts ~/.pi/agent/extensions/whimsical-toronto.ts
-
-# Project-local
-cp index.ts .pi/extensions/whimsical-toronto.ts
-```
-
-Then `/reload` in pi.
 
 ## Notes
 
-- No config or dependencies — works out of the box.
-- If you're also running the default `whimsical.ts` extension, remove it; both set the working message on `turn_start` and they'll race.
-- Phrases are hardcoded in `index.ts` — add or remove lines freely.
-
-## Slang sources
-
-- [Queen's Journal Toronto Slang Dictionary](https://www.queensjournal.ca/the-toronto-slang-dictionary/)
-- [wikiHow: Toronto Slang Words](https://www.wikihow.com/Toronto-Slang-Words)
-- [Narcity: Toronto Slang Words](https://www.narcity.com/toronto/toronto-slang-words)
-- [Contiki: Canadian Slang Words](https://www.contiki.com/six-two/article/canadian-slang-words/)
+- If you also load another extension that sets the working message on `turn_start`, the last one to run wins.
+- Phrase list lives in `index.ts` and is easy to customize.
