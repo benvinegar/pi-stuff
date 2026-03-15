@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import kernelExtension from "../extensions/kernel/index";
-import { createMockPi } from "./helpers/mock-pi";
+import kernelExtension from "../index";
+import { createMockPi } from "../../test-utils/mock-pi";
 import {
   __getDeletedSessionIds,
   __resetKernelMock,
   __setKernelSessions,
   __setPlaywrightResult,
-} from "./stubs/onkernel-sdk";
+} from "../../test-utils/stubs/onkernel-sdk";
 
 describe("kernel extension", () => {
   beforeEach(() => {

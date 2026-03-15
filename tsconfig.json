@@ -8,13 +8,13 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@mariozechner/pi-coding-agent": ["test/stubs/pi-coding-agent.ts"],
-      "@mariozechner/pi-ai": ["test/stubs/pi-ai.ts"],
-      "@mariozechner/pi-tui": ["test/stubs/pi-tui.ts"],
-      "@sinclair/typebox": ["test/stubs/typebox.ts"],
-      "@onkernel/sdk": ["test/stubs/onkernel-sdk.ts"]
+      "@mariozechner/pi-coding-agent": ["extensions/test-utils/stubs/pi-coding-agent.ts"],
+      "@mariozechner/pi-ai": ["extensions/test-utils/stubs/pi-ai.ts"],
+      "@mariozechner/pi-tui": ["extensions/test-utils/stubs/pi-tui.ts"],
+      "@sinclair/typebox": ["extensions/test-utils/stubs/typebox.ts"],
+      "@onkernel/sdk": ["extensions/test-utils/stubs/onkernel-sdk.ts"]
     },
     "types": ["node", "vitest/globals"]
   },
-  "include": ["extensions", "test", "vitest.config.ts", "biome.json"]
+  "include": ["extensions", "vitest.config.ts", "biome.json"]
 }

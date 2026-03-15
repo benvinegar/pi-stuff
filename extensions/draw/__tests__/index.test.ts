@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import drawExtension from "../extensions/draw/index";
-import { createMockPi } from "./helpers/mock-pi";
+import drawExtension from "../index";
+import { createMockPi } from "../../test-utils/mock-pi";
 
 describe("draw extension", () => {
   it("registers /draw command", () => {

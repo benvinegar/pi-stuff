@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import prTrackExtension from "../extensions/pr-track/index";
-import { createMockContext, createMockPi } from "./helpers/mock-pi";
+import prTrackExtension from "../index";
+import { createMockContext, createMockPi } from "../../test-utils/mock-pi";
 
 function ghPr(number: number, title = "Add cool thing") {
   return {

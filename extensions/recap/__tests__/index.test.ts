@@ -1,7 +1,7 @@
 import { __setCompleteResponse } from "@mariozechner/pi-ai";
 import { describe, expect, it } from "vitest";
-import recapExtension from "../extensions/recap/index";
-import { createMockContext, createMockPi } from "./helpers/mock-pi";
+import recapExtension from "../index";
+import { createMockContext, createMockPi } from "../../test-utils/mock-pi";
 
 function sampleBranch() {
   return [
